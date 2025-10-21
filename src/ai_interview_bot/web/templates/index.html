@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <form method="post" action="/start" class="bg-white rounded-lg shadow p-6 space-y-4">
+    <h2 class="text-lg font-semibold">Choose a domain</h2>
+    <div class="grid gap-3">
+      {% for key, info in domains.items() %}
+        <label class="flex items-start gap-3 p-3 border rounded hover:bg-slate-50">
+          <input type="radio" name="domain" value="{{ key }}" required class="mt-1">
+          <span>
+            <span class="font-medium">{{ key.replace('_',' ').title() }}</span><br>
+            <span class="text-sm text-slate-600">{{ info.persona }}</span>
+          </span>
+        </label>
+      {% endfor %}
+    </div>
+    <button class="px-4 py-2 rounded bg-black text-white">Start session</button>
+  </form>
+{% endblock %}

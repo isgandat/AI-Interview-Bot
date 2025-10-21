@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="bg-white rounded-lg shadow p-6 space-y-6">
+
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="text-sm uppercase tracking-wide text-slate-500">{{ s.domain.replace('_',' ') }}</div>
+        <div class="text-xs text-slate-500">Session: {{ s.sid }}</div>
+      </div>
+      <!-- Styled as primary (black) like Submit -->
+      <a href="/" class="px-4 py-2 rounded bg-black text-white text-sm">New session</a>
+    </div>
+
+    {% if s.get('warnings') %}
+      <div class="p-3 border border-amber-300 bg-amber-50 rounded text-sm text-amber-800">
+        <strong>Note:</strong> {{ s.warnings[-1] }}
+      </div>
+    {% endif %}
+
+    <div>
+      <h3 class="text-sm font-semibold text-slate-600">Interviewer asks</h3>
+      <p class="mt-1 text-lg">{{ s.current_q }}</p>
+    </div>
+
+    <form method="post" action="/chat/{{ s.sid }}/answer" class="space-y-3">
+      <!-- Min height so placeholder is always fully visible; still resizable vertically -->
+      <textarea
+        name="user_answer"
+        rows="1"
+        required
+        class="w-full border rounded p-3 resize-y min-h-12"
+        placeholder="Type your answer..."></textarea>
+
+      <div class="flex gap-2">
+        <!-- submit answer -->
+        <button class="px-4 py-2 rounded bg-black text-white">Submit answer</button>
+
+        <!-- NEW: fetch a new question without submitting -->
+        <button
+          type="submit"
+          formaction="/chat/{{ s.sid }}/new"
+          formmethod="post"
+          formnovalidate
+          class="px-3 py-2 rounded border">
+          New question
+        </button>
+
+        <a href="/chat/{{ s.sid }}" class="px-3 py-2 rounded border">Refresh</a>
+      </div>
+    </form>
+
+    {% if s.turns %}
+      <div class="border-t pt-4 space-y-4">
+        <h3 class="text-sm font-semibold text-slate-600">History</h3>
+        {% for t in s.turns|reverse %}
+          <div class="p-3 rounded border">
+            <div class="text-slate-600 text-sm">Q: {{ t.q }}</div>
+            <div class="mt-2"><span class="text-slate-600 text-sm">You:</span> {{ t.a }}</div>
+            {% if t.feedback %}
+              <div class="mt-3 grid grid-cols-5 gap-2 text-sm">
+                {% for k,v in t.feedback.scores.items() %}
+                  <div class="p-2 bg-slate-50 rounded border">
+                    <div class="uppercase text-[10px] text-slate-500">{{ k }}</div>
+                    <div class="font-semibold">{{ v }}</div>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="mt-2 text-sm">
+                <div class="font-medium">Summary</div>
+                <p class="text-slate-700">{{ t.feedback.summary }}</p>
+              </div>
+              <div class="mt-2 text-sm">
+                <div class="font-medium">Tips</div>
+                <ul class="list-disc pl-5">
+                  {% for tip in t.feedback.tips %}
+                    <li>{{ tip }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <details class="mt-2">
+                <summary class="cursor-pointer text-sm text-slate-600">Ideal answer</summary>
+                <div class="mt-2 text-slate-800 whitespace-pre-line">{{ t.feedback.ideal_answer }}</div>
+              </details>
+            {% else %}
+              <div class="mt-2 text-sm text-amber-700">Feedback unavailable (model returned invalid JSON).</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

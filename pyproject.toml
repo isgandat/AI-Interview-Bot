@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "ai-interview-bot"
+version = "0.3.0"
+description = "AI Interview Practice Tool (CLI + Web UI) using Ollama."
+authors = ["Turan Isgandarli"]
+packages = [{ include = "ai_interview_bot", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "*"
+pyyaml = "*"
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+jinja2 = "*"
+python-multipart = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+
+[tool.poetry.scripts]
+ai-bot = "ai_interview_bot.cli.run:main"
+ai-bot-web = "ai_interview_bot.web.app:dev"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

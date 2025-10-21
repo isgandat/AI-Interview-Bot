@@ -1,0 +1,18 @@
+{
+  "sid": "8e910bb629f041e88cdbb845a8723cb6",
+  "domain": "data_science",
+  "persona": "You are a senior DS interviewer focusing on statistics, ML, SQL, and machine learning.",
+  "created_at": "2025-09-03T15:05:43.965494Z",
+  "used_questions": [
+    "given a dataset of movies and their corresponding genres develop an algorithm to recommend 5 new movies to a user based on their past viewing history assume you have access to a database with movie metadata including ratings and popularity scores but not the actual movie content"
+  ],
+  "tag_counts": {
+    "collaborative filtering": 1,
+    "content-based filtering": 1
+  },
+  "diff_counts": {
+    "medium": 1
+  },
+  "turns": [],
+  "current_q": "Given a dataset of movies and their corresponding genres, develop an algorithm to recommend 5 new movies to a user based on their past viewing history. Assume you have access to a database with movie metadata, including ratings and popularity scores, but not the actual movie content."
+}
