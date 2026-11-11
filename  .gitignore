@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+.pytest_cache/
+src/storage/
+storage/web_sessions/*.json
+storage/sessions/*.json
+storage/asked_index.json
