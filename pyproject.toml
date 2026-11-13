@@ -16,6 +16,7 @@ python-multipart = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
+httpx = "^0.28.1"
 
 [tool.poetry.scripts]
 ai-bot = "ai_interview_bot.cli.run:main"
